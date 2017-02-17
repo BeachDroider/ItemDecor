@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     Stack<View> headerViews = null;
     View currentHederView = null;
 
+    int canvasTop = 0;
+    int canvasHeight = 0;
+
 
 
     @Override
@@ -71,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
 
                 boolean clicked = gestureDetector.onTouchEvent(e);
+                Log.i("9898", "e.getY(): " + Float.toString(e.getY()));
 
-                if (clicked && e.getY() < (float)currentHederView.getTop()){
+                if (clicked && (int)e.getY() < canvasTop){
 
                     Log.i("9898", "clicked sticking header");
                     currentHederView.performClick();
@@ -126,10 +130,21 @@ public class MainActivity extends AppCompatActivity {
                     c.translate(0,  nextHeaderViewww.getTop() - nextHeaderViewww.getHeight() );
                     currentHederView.draw(c);
                     c.restore();
+                    Log.i("9898", "canvas top: " + Integer.toString(nextHeaderViewww.getTop() ));
+                    Log.i("9898", "canvas height: " + nextHeaderViewww.getHeight());
+                    canvasTop = nextHeaderViewww.getTop();
+                    canvasHeight = nextHeaderViewww.getHeight();
+
 
                 } else {
                     currentHederView.draw(c);
+                    canvasTop = nextHeaderViewww.getTop();
+                    canvasHeight = nextHeaderViewww.getHeight();
+                    Log.i("9898", "canvas top: " + Integer.toString(canvasTop));
+
+
                 }
+
 
             }
 
