@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     headerViews.clear();
                 }
 
-                if (nextHeaderViewww.getTop() > nextHeaderViewww.getHeight())
+                if (nextHeaderViewww.getTop() > parent.getChildAt(0).getHeight())
                     stackCanPop = true;
 
                 if (nextHeaderViewww.getTop() < nextHeaderViewww.getHeight()){
@@ -158,16 +158,12 @@ public class MainActivity extends AppCompatActivity {
                     canvasHeight = nextHeaderViewww.getHeight();
 
                 }
-
-
             }
-
         });
 
     }
 
     private View getNextHeader(RecyclerView recyclerView){
-
 
         int i = 1;
         int size = recyclerView.getChildCount();

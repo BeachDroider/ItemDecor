@@ -125,8 +125,8 @@ public class MyAdapter extends RecyclerView.Adapter {
             super(view);
             this.view = view;
             Random rnd = new Random();
-       //   int color = Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            int color = Color.argb(255, 123, 123, 123);
+          int color = Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+      //      int color = Color.argb(255, 123, 123, 123);
             view.setBackgroundColor(color);
             headerItemText = (TextView)view.findViewById(R.id.header_item_text);
             view.setOnClickListener(new View.OnClickListener() {
