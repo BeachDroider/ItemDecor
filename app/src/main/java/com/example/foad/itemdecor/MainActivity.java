@@ -12,7 +12,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     Paint mPaint;
     int mdy = 0;
 
-    Stack<View> headerViews = null;
     View currentHederView = null;
 
     int canvasTop = 0;
@@ -35,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        headerViews = new Stack<>();
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
@@ -109,43 +105,14 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
                 super.onDrawOver(c, parent, state);
 
-                if (currentHederView == null){
-                    currentHederView = parent.getChildAt(0);
-                }
 
                 View nextHeaderViewww = getNextHeader(parent);
-
-                if (mdy > 0  && parent.getChildAt(0).getTag() != null && parent.getChildAt(0) != currentHederView){
-
-                    Log.i("8888", "pushed to stack");
-                    headerViews.push(currentHederView);
-                    currentHederView = parent.getChildAt(0);
-                }
-
-                if (mdy < 0 && parent.getChildAt(1).getTag() != null && !headerViews.isEmpty()) {
-                    if (stackCanPop){
-                        Log.i("8888", "popped");
-                        currentHederView = headerViews.pop();
-                        stackCanPop = false;
-                    }
-
-                }
-
-
-                // if we are reaching top of list due to acceleretation followed by a previous fast scroll without
-                // a current scroll event, in that case everything should be restored to initial state
-                if (parent.getChildAdapterPosition(parent.getChildAt(0)) == 0){
-                    currentHederView = parent.getChildAt(0);
-                    headerViews.clear();
-                }
-
-                if (nextHeaderViewww.getTop() > parent.getChildAt(0).getHeight())
-                    stackCanPop = true;
-
+                currentHederView = mAdapter.mHeaders.get(((GenericViewHolder)(parent.getChildViewHolder(parent.getChildAt(0)))).getKey());
+                Log.i("0909", Integer.toString(currentHederView.hashCode()));
                 if (nextHeaderViewww.getTop() < nextHeaderViewww.getHeight()){
                     c.save();
-                    c.clipRect(0,  0 , parent.getWidth(),  nextHeaderViewww.getTop());
-                    c.translate(0,  nextHeaderViewww.getTop() - nextHeaderViewww.getHeight() );
+                    //c.clipRect(0,  0 , parent.getWidth(),  nextHeaderViewww.getTop());
+                    //c.translate(0,  nextHeaderViewww.getTop() - nextHeaderViewww.getHeight() );
                     currentHederView.draw(c);
                     c.restore();
                     canvasTop = nextHeaderViewww.getTop();
@@ -156,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     currentHederView.draw(c);
                     canvasTop = nextHeaderViewww.getTop();
                     canvasHeight = nextHeaderViewww.getHeight();
+
 
                 }
             }
@@ -171,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
         while (i < size){
             view = recyclerView.getChildAt(i);
-            if (view.getTag() != null) return view;
+            if (view.getTag() != null) {
+                return view;
+            }
             i++;
         }
         return null;

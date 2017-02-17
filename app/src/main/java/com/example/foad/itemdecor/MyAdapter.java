@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -23,6 +24,8 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     public static int NORMAL_VIEW_TYPE = 0;
     public static int HEADER_VIEW_TYPE = 1;
+
+    public HashMap<String, View> mHeaders;
 
     String entries[] = new String[]{
             "A", "A0","A1","A2",
@@ -44,7 +47,9 @@ public class MyAdapter extends RecyclerView.Adapter {
     };
 
     public MyAdapter(Context context){
+
         mContext = context;
+        mHeaders = new HashMap<>();
     }
 
     @Override
@@ -87,6 +92,9 @@ public class MyAdapter extends RecyclerView.Adapter {
 
             ((HeaderViewHolder) holder).headerItemText.setText(getItem(position));
             ((HeaderViewHolder) holder).view.setTag(getItem(position));
+            ((HeaderViewHolder) holder).setKey(getItem(position));
+            if (!mHeaders.containsKey(getItem(position)))
+                mHeaders.put(getItem(position) , ((HeaderViewHolder) holder).view);
 
 
         }
@@ -98,34 +106,30 @@ public class MyAdapter extends RecyclerView.Adapter {
         return entries.length;
     }
 
-    private class NormalViewHolder extends RecyclerView.ViewHolder{
 
-        TextView normalItemText;
-
-        public NormalViewHolder(View view){
-            super(view);
-            normalItemText = (TextView)view.findViewById(R.id.normal_item_text);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("8888", "clicked normal item: " + normalItemText.getText());
-                }
-            });
-
-        }
-
-    }
-
-    private class HeaderViewHolder extends RecyclerView.ViewHolder{
+    private class HeaderViewHolder extends GenericViewHolder{
 
         TextView headerItemText;
         View view;
+        String key = null;
+
+
+        @Override
+        public String getKey(){
+            return key;
+        }
+
+        public void setKey(String key){
+            this.key = key;
+        }
 
         public HeaderViewHolder(View view){
             super(view);
             this.view = view;
             Random rnd = new Random();
-          int color = Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+
+
+          int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
       //      int color = Color.argb(255, 123, 123, 123);
             view.setBackgroundColor(color);
             headerItemText = (TextView)view.findViewById(R.id.header_item_text);
@@ -136,6 +140,7 @@ public class MyAdapter extends RecyclerView.Adapter {
 
                 }
             });
+
 
         }
 
