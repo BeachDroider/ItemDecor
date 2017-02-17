@@ -74,15 +74,29 @@ public class MainActivity extends AppCompatActivity {
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
 
                 boolean clicked = gestureDetector.onTouchEvent(e);
-                Log.i("9898", "e.getY(): " + Float.toString(e.getY()));
 
-                if (clicked && (int)e.getY() < canvasTop){
+                if (canvasTop < canvasHeight){
 
-                    Log.i("9898", "clicked sticking header");
-                    currentHederView.performClick();
-                    return true;
+                    if (clicked && (int)e.getY() < canvasTop){
+                        Log.i("9898", "clicked sticking header");
+                        currentHederView.performClick();
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                } else {
+
+                    if (clicked && (int)e.getY() < canvasHeight){
+                        Log.i("9898", "clicked sticking header");
+                        currentHederView.performClick();
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
-                return false;
+
+
             }
 
         });
@@ -130,8 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     c.translate(0,  nextHeaderViewww.getTop() - nextHeaderViewww.getHeight() );
                     currentHederView.draw(c);
                     c.restore();
-                    Log.i("9898", "canvas top: " + Integer.toString(nextHeaderViewww.getTop() ));
-                    Log.i("9898", "canvas height: " + nextHeaderViewww.getHeight());
                     canvasTop = nextHeaderViewww.getTop();
                     canvasHeight = nextHeaderViewww.getHeight();
 
@@ -140,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
                     currentHederView.draw(c);
                     canvasTop = nextHeaderViewww.getTop();
                     canvasHeight = nextHeaderViewww.getHeight();
-                    Log.i("9898", "canvas top: " + Integer.toString(canvasTop));
-
 
                 }
 
@@ -157,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
         int i = 1;
         int size = recyclerView.getChildCount();
-        View view = null;
+        View view;
 
         while (i < size){
             view = recyclerView.getChildAt(i);
