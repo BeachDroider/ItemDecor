@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     int canvasTop = 0;
     int canvasHeight = 0;
 
-    View lastPopped = null;
+    boolean stackCanPop = true;
 
 
     @Override
@@ -123,21 +123,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (mdy < 0 && parent.getChildAt(1).getTag() != null && !headerViews.isEmpty()) {
-                    currentHederView = headerViews.peek();
-                    if (lastPopped != currentHederView){
+                    if (stackCanPop){
                         Log.i("8888", "popped");
-
-                        headerViews.pop();
-                        lastPopped = currentHederView;
+                        currentHederView = headerViews.pop();
+                        stackCanPop = false;
                     }
 
                 }
-
-               /* if (mdy < 0 && parent.getChildAt(2).getTag() != null && !headerViews.isEmpty() && currentHederView == headerViews.peek()) {
-                    Log.i("8888", "popped stack");
-                    headerViews.pop();
-                }*/
-
 
 
                 // if we are reaching top of list due to acceleretation followed by a previous fast scroll without
@@ -146,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
                     currentHederView = parent.getChildAt(0);
                     headerViews.clear();
                 }
+
+                if (nextHeaderViewww.getTop() > nextHeaderViewww.getHeight())
+                    stackCanPop = true;
 
                 if (nextHeaderViewww.getTop() < nextHeaderViewww.getHeight()){
                     c.save();
