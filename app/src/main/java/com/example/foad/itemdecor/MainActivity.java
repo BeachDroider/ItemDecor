@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     int canvasTop = 0;
     int canvasHeight = 0;
 
+    View lastPopped = null;
 
 
     @Override
@@ -112,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                     currentHederView = parent.getChildAt(0);
                 }
 
+                View nextHeaderViewww = getNextHeader(parent);
+
                 if (mdy > 0  && parent.getChildAt(0).getTag() != null && parent.getChildAt(0) != currentHederView){
 
                     Log.i("8888", "pushed to stack");
@@ -120,15 +123,22 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (mdy < 0 && parent.getChildAt(1).getTag() != null && !headerViews.isEmpty()) {
-                    Log.i("8888", "peek");
                     currentHederView = headerViews.peek();
+                    if (lastPopped != currentHederView){
+                        Log.i("8888", "popped");
+
+                        headerViews.pop();
+                        lastPopped = currentHederView;
+                    }
 
                 }
 
-                if (mdy < 0 && parent.getChildAt(2).getTag() != null && !headerViews.isEmpty() && currentHederView == headerViews.peek()) {
+               /* if (mdy < 0 && parent.getChildAt(2).getTag() != null && !headerViews.isEmpty() && currentHederView == headerViews.peek()) {
                     Log.i("8888", "popped stack");
                     headerViews.pop();
-                }
+                }*/
+
+
 
                 // if we are reaching top of list due to acceleretation followed by a previous fast scroll without
                 // a current scroll event, in that case everything should be restored to initial state
@@ -137,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                     headerViews.clear();
                 }
 
-                View nextHeaderViewww = getNextHeader(parent);
                 if (nextHeaderViewww.getTop() < nextHeaderViewww.getHeight()){
                     c.save();
                     c.clipRect(0,  0 , parent.getWidth(),  nextHeaderViewww.getTop());
