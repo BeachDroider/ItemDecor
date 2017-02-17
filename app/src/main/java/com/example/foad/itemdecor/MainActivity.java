@@ -1,23 +1,16 @@
 package com.example.foad.itemdecor;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Region;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.Stack;
 
@@ -30,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     int mdy = 0;
 
     Stack<View> headerViews = null;
+    View currentHederView = null;
+
 
 
     @Override
@@ -52,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
         mPaint.setColor(Color.RED);
 
         mRecyclerView.getRecycledViewPool().setMaxRecycledViews(MyAdapter.HEADER_VIEW_TYPE, 0);
-
-
-
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -80,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
                 boolean clicked = gestureDetector.onTouchEvent(e);
 
-                if (clicked && e.getY() < 100.0f){
-                    Log.i("9898", "clicked header");
+                if (clicked && e.getY() < (float)currentHederView.getTop()){
+
+                    Log.i("9898", "clicked sticking header");
+                    currentHederView.performClick();
+                    return true;
                 }
                 return false;
             }
@@ -90,20 +85,14 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
 
-            View currentHederView = null;
 
             @Override
             public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
                 super.onDrawOver(c, parent, state);
 
-
                 if (currentHederView == null){
                     currentHederView = parent.getChildAt(0);
                 }
-
-                int width = parent.getWidth();
-                int top = parent.getChildAt(0).getTop();
-                int height = parent.getChildAt(1).getHeight();
 
                 if (mdy > 0  && parent.getChildAt(0).getTag() != null && parent.getChildAt(0) != currentHederView){
 
@@ -112,19 +101,16 @@ public class MainActivity extends AppCompatActivity {
                     currentHederView = parent.getChildAt(0);
                 }
 
-
-                if (mdy < 0 && parent.getChildAt(1).getTag() != null ) {
+                if (mdy < 0 && parent.getChildAt(1).getTag() != null && !headerViews.isEmpty()) {
                     Log.i("8888", "peek");
                     currentHederView = headerViews.peek();
 
                 }
 
-
                 if (mdy < 0 && parent.getChildAt(2).getTag() != null && !headerViews.isEmpty() && currentHederView == headerViews.peek()) {
                     Log.i("8888", "popped stack");
                     headerViews.pop();
                 }
-
 
                 // if we are reaching top of list due to acceleretation followed by a previous fast scroll without
                 // a current scroll event, in that case everything should be restored to initial state
@@ -133,27 +119,37 @@ public class MainActivity extends AppCompatActivity {
                     headerViews.clear();
                 }
 
-
-                if (parent.getChildAt(1).getTag() != null){
-
+                View nextHeaderViewww = getNextHeader(parent);
+                if (nextHeaderViewww.getTop() < nextHeaderViewww.getHeight()){
                     c.save();
-                    c.clipRect(0,  0 , width,   height + top);
-                    c.translate(0,  top);
-
+                    c.clipRect(0,  0 , parent.getWidth(),  nextHeaderViewww.getTop());
+                    c.translate(0,  nextHeaderViewww.getTop() - nextHeaderViewww.getHeight() );
                     currentHederView.draw(c);
                     c.restore();
 
                 } else {
                     currentHederView.draw(c);
-
                 }
-
-
 
             }
 
         });
 
+    }
+
+    private View getNextHeader(RecyclerView recyclerView){
+
+
+        int i = 1;
+        int size = recyclerView.getChildCount();
+        View view = null;
+
+        while (i < size){
+            view = recyclerView.getChildAt(i);
+            if (view.getTag() != null) return view;
+            i++;
+        }
+        return null;
     }
 
 

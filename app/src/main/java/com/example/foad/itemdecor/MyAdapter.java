@@ -105,6 +105,12 @@ public class MyAdapter extends RecyclerView.Adapter {
         public NormalViewHolder(View view){
             super(view);
             normalItemText = (TextView)view.findViewById(R.id.normal_item_text);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("8888", "clicked normal item: " + normalItemText.getText());
+                }
+            });
 
         }
 
@@ -119,10 +125,17 @@ public class MyAdapter extends RecyclerView.Adapter {
             super(view);
             this.view = view;
             Random rnd = new Random();
-     //       int color = Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+       //   int color = Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
             int color = Color.argb(255, 123, 123, 123);
             view.setBackgroundColor(color);
             headerItemText = (TextView)view.findViewById(R.id.header_item_text);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("8888", "clicked header item: " + headerItemText.getText());
+
+                }
+            });
 
         }
 
