@@ -129,7 +129,7 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
         int filteredListFirstIndex = findFirstIndexOf(mFilteredData, key) ;
 
         mFilteredData.addAll(filteredListFirstIndex + 1 , mData.subList(mainListFirstIndex , mainListLastIndex + 1));
-        notifyItemRangeInserted(filteredListFirstIndex + 1 , mainListLastIndex - mainListFirstIndex );
+        notifyItemRangeInserted(filteredListFirstIndex + 1 , mainListLastIndex - mainListFirstIndex + 1 );
 
 
         Log.i("9090", "MainListFirst: " + Integer.toString(mainListFirstIndex));

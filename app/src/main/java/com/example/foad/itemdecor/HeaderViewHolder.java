@@ -35,8 +35,8 @@ public class HeaderViewHolder extends GenericViewHolder{
         Random rnd = new Random();
 
 
-        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        //      int color = Color.argb(255, 123, 123, 123);
+       // int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+             int color = Color.argb(255, 123, 123, 123);
         view.setBackgroundColor(color);
         headerItemText = (TextView)view.findViewById(R.id.header_item_text);
         view.setOnClickListener(new View.OnClickListener() {
