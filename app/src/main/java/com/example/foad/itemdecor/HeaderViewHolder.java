@@ -13,6 +13,7 @@ public class HeaderViewHolder extends GenericViewHolder{
     TextView headerItemText;
     View view;
     String key = null;
+    StickyHeaderAdapter mAdapter;
 
 
     @Override
@@ -20,13 +21,15 @@ public class HeaderViewHolder extends GenericViewHolder{
         return key;
     }
 
+    @Override
     public void setGroupHeaderKey(String key){
         this.key = key;
     }
 
-    public HeaderViewHolder(View view){
+    public HeaderViewHolder(StickyHeaderAdapter adapter, View view){
         super(view);
         this.view = view;
+        mAdapter = adapter;
         Random rnd = new Random();
 
 
@@ -39,6 +42,8 @@ public class HeaderViewHolder extends GenericViewHolder{
             public void onClick(View v) {
                 Log.i("8888", "clicked header item: " + headerItemText.getText());
 
+
+                mAdapter.onHeaderClicked(key);
             }
         });
 

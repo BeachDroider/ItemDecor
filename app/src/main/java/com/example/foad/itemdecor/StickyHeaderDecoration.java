@@ -73,8 +73,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration  {
             if (canvasTop < canvasHeight){
 
                 if (clicked && (int)e.getY() < canvasTop){
-                    Log.i("9898", "clicked sticking header");
-                    currentHeaderView.performClick();
+                    onStickingHeaderClicked();
                     return true;
                 } else {
                     return false;
@@ -83,8 +82,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration  {
             } else {
 
                 if (clicked && (int)e.getY() < canvasHeight){
-                    Log.i("9898", "clicked sticking header");
-                    currentHeaderView.performClick();
+                    onStickingHeaderClicked();
                     return true;
                 } else {
                     return false;
@@ -103,5 +101,10 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration  {
         }
     }
 
+    private void onStickingHeaderClicked(){
+        Log.i("9898", "clicked sticking header");
+        currentHeaderView.performClick();
+
+    }
 
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 public class NormalViewHolder extends GenericViewHolder{
 
     TextView normalItemText;
+    String key;
 
     public NormalViewHolder(View view){
         super(view);
@@ -24,6 +25,11 @@ public class NormalViewHolder extends GenericViewHolder{
     @Override
     public String getGroupHeaderKey(){
         return normalItemText.getText().toString().substring(0,1);
+    }
+
+    @Override
+    public void setGroupHeaderKey(String key){
+        this.key = key;
     }
 
 }

@@ -11,6 +11,8 @@ public abstract class GenericViewHolder extends RecyclerView.ViewHolder {
 
     public abstract String getGroupHeaderKey();
 
+    public abstract void setGroupHeaderKey(String key);
+
     public GenericViewHolder(View view){
         super(view);
     }
