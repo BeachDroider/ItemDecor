@@ -1,31 +1,19 @@
 package com.example.foad.itemdecor;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.HashMap;
-import java.util.Random;
 
 /**
  * Created by foad on 8/2/17.
  */
 
-public class MyAdapter extends RecyclerView.Adapter {
-
-
-    Context mContext;
+public class MyAdapter extends StickyHeaderAdapter {
 
     public static int NORMAL_VIEW_TYPE = 0;
     public static int HEADER_VIEW_TYPE = 1;
-
-    public HashMap<String, View> mHeaders;
 
     String entries[] = new String[]{
             "A", "A0","A1","A2",
@@ -46,10 +34,8 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     };
 
-    public MyAdapter(Context context){
+    public MyAdapter(){
 
-        mContext = context;
-        mHeaders = new HashMap<>();
     }
 
     @Override
@@ -59,24 +45,19 @@ public class MyAdapter extends RecyclerView.Adapter {
         else return NORMAL_VIEW_TYPE;
     }
 
-    public String getItem(int position){
-
-            return entries[position];
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
 
         if (viewType == NORMAL_VIEW_TYPE) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_list_item, parent, false);
 
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_list_item, parent, false);
             return new NormalViewHolder(view);
 
         } else if (viewType == HEADER_VIEW_TYPE) {
+
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_list_item, parent, false);
             return new HeaderViewHolder(view);
-
         }
 
         return null;
@@ -88,14 +69,13 @@ public class MyAdapter extends RecyclerView.Adapter {
         if (holder instanceof NormalViewHolder){
 
             ((NormalViewHolder) holder).normalItemText.setText(getItem(position));
+
         } else if (holder instanceof HeaderViewHolder){
 
             ((HeaderViewHolder) holder).headerItemText.setText(getItem(position));
-            ((HeaderViewHolder) holder).view.setTag(getItem(position));
             ((HeaderViewHolder) holder).setKey(getItem(position));
-            if (!mHeaders.containsKey(getItem(position)))
-                mHeaders.put(getItem(position) , ((HeaderViewHolder) holder).view);
 
+            setHeader(getItem(position), ((HeaderViewHolder) holder).view);
 
         }
 
@@ -103,48 +83,17 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
+
         return entries.length;
     }
 
+    private String getItem(int position){
 
-    private class HeaderViewHolder extends GenericViewHolder{
-
-        TextView headerItemText;
-        View view;
-        String key = null;
-
-
-        @Override
-        public String getKey(){
-            return key;
-        }
-
-        public void setKey(String key){
-            this.key = key;
-        }
-
-        public HeaderViewHolder(View view){
-            super(view);
-            this.view = view;
-            Random rnd = new Random();
-
-
-          int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-      //      int color = Color.argb(255, 123, 123, 123);
-            view.setBackgroundColor(color);
-            headerItemText = (TextView)view.findViewById(R.id.header_item_text);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("8888", "clicked header item: " + headerItemText.getText());
-
-                }
-            });
-
-
-        }
-
+        return entries[position];
     }
+
+
+
 
 
 
