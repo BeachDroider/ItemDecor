@@ -16,11 +16,11 @@ public class HeaderViewHolder extends GenericViewHolder{
 
 
     @Override
-    public String getKey(){
+    public String getGroupHeaderKey(){
         return key;
     }
 
-    public void setKey(String key){
+    public void setGroupHeaderKey(String key){
         this.key = key;
     }
 

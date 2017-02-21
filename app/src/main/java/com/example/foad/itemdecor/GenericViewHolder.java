@@ -9,7 +9,7 @@ import android.view.View;
 
 public abstract class GenericViewHolder extends RecyclerView.ViewHolder {
 
-    public abstract String getKey();
+    public abstract String getGroupHeaderKey();
 
     public GenericViewHolder(View view){
         super(view);

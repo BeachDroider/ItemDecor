@@ -49,7 +49,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration  {
         super.onDrawOver(c, parent, state);
 
         View nextHeaderView = getNextHeader(parent);
-        currentHeaderView = mAdapter.getHeader(((GenericViewHolder)(parent.getChildViewHolder(parent.getChildAt(0)))).getKey());
+        currentHeaderView = mAdapter.getHeader(((GenericViewHolder)(parent.getChildViewHolder(parent.getChildAt(0)))).getGroupHeaderKey());
 
         if (nextHeaderView.getTop() < nextHeaderView.getHeight()){
             c.clipRect(0,  0 , parent.getWidth(),  nextHeaderView.getTop());

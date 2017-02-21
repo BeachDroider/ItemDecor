@@ -25,11 +25,14 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
         return mHeaders.get(key);
     }
 
-    public void setHeader(String key, View view){
+    public void storeHeader(String key, View view){
 
         if (!mHeaders.containsKey(key))
             mHeaders.put(key, view);
 
     }
+
+
+
 
 }

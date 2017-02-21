@@ -4,11 +4,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-/**
- * Created by foad on 17/2/17.
- */
-
-
 
 public class NormalViewHolder extends GenericViewHolder{
 
@@ -24,11 +19,10 @@ public class NormalViewHolder extends GenericViewHolder{
             }
         });
 
-
     }
 
     @Override
-    public String getKey(){
+    public String getGroupHeaderKey(){
         return normalItemText.getText().toString().substring(0,1);
     }
 

@@ -1,7 +1,6 @@
 package com.example.foad.itemdecor;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,9 +72,9 @@ public class MyAdapter extends StickyHeaderAdapter {
         } else if (holder instanceof HeaderViewHolder){
 
             ((HeaderViewHolder) holder).headerItemText.setText(getItem(position));
-            ((HeaderViewHolder) holder).setKey(getItem(position));
+            ((HeaderViewHolder) holder).setGroupHeaderKey(getItem(position));
 
-            setHeader(getItem(position), ((HeaderViewHolder) holder).view);
+            storeHeader(getItem(position), ((HeaderViewHolder) holder).view);
 
         }
 
