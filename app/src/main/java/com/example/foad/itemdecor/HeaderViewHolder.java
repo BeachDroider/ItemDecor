@@ -14,6 +14,7 @@ public class HeaderViewHolder extends GenericViewHolder{
     View view;
     String key = null;
     StickyHeaderAdapter mAdapter;
+    Boolean mExpnded;
 
 
     @Override
@@ -30,6 +31,7 @@ public class HeaderViewHolder extends GenericViewHolder{
         super(view);
         this.view = view;
         mAdapter = adapter;
+        mExpnded = true;
         Random rnd = new Random();
 
 
@@ -43,7 +45,13 @@ public class HeaderViewHolder extends GenericViewHolder{
                 Log.i("8888", "clicked header item: " + headerItemText.getText());
 
 
-                mAdapter.onHeaderClicked(key);
+                if (mExpnded){
+                    mAdapter.collapse(key);
+                    mExpnded = false;
+                } else {
+                    mAdapter.expand(key);
+                    mExpnded = true;
+                }
             }
         });
 
