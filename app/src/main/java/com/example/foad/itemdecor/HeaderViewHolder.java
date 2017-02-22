@@ -45,13 +45,15 @@ public class HeaderViewHolder extends GenericViewHolder{
                 Log.i("8888", "clicked header item: " + headerItemText.getText());
 
 
-                if (mExpnded){
+             /*   if (mExpnded){
                     mAdapter.collapse(key);
                     mExpnded = false;
                 } else {
                     mAdapter.expand(key);
                     mExpnded = true;
-                }
+                }*/
+
+                mAdapter.onHeaderClicked(key);
             }
         });
 

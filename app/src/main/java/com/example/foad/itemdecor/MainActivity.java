@@ -49,6 +49,23 @@ public class MainActivity extends AppCompatActivity {
         myItems.add(new MyItem("E1", false));
         myItems.add(new MyItem("E2", false));
 
+        myItems.add(new MyItem("F", true));
+        myItems.add(new MyItem("F0", false));
+        myItems.add(new MyItem("F1", false));
+        myItems.add(new MyItem("F2", false));
+        myItems.add(new MyItem("F3", false));
+        myItems.add(new MyItem("F4", false));
+
+        myItems.add(new MyItem("G", true));
+
+        myItems.add(new MyItem("H", true));
+        myItems.add(new MyItem("H0", false));
+
+        myItems.add(new MyItem("I", true));
+        myItems.add(new MyItem("I0", false));
+        myItems.add(new MyItem("I1", false));
+        myItems.add(new MyItem("I2", false));
+
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new MyAdapter(myItems);
