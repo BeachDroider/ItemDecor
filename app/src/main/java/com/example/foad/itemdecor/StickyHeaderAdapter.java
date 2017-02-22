@@ -1,7 +1,6 @@
 package com.example.foad.itemdecor;
 
-import android.content.Context;
-import android.support.annotation.UiThread;
+
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
 
     public static int NORMAL_VIEW_TYPE = 0;
     public static int HEADER_VIEW_TYPE = 1;
-
 
     private HashMap<String, View> mHeaders;
     private HashMap<String, Boolean> mExpansionState;
@@ -55,40 +53,6 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
 
     }
 
-    public View getHeader(String key){
-
-        return mHeaders.get(key);
-    }
-
-    public void setData(List data){
-        mData = data;
-    }
-
-    public Object getItem(int position){
-        return mFilteredData.get(position);
-
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((GenericViewHolder)holder).setGroupHeaderKey((((StickyHeaderItem)getItem(position)).getGroupKey()));
-
-
-        if (holder instanceof HeaderViewHolder){
-            if (!mHeaders.containsKey(((HeaderViewHolder) holder).getGroupHeaderKey()))
-                mHeaders.put(((HeaderViewHolder) holder).getGroupHeaderKey(), ((HeaderViewHolder) holder).view);
-
-
-
-            if (!mExpansionState.containsKey(((HeaderViewHolder) holder).getGroupHeaderKey()))
-                mExpansionState.put(((HeaderViewHolder) holder).getGroupHeaderKey(), TRUE);
-
-
-        }
-
-
-    }
-
     @Override
     public int getItemCount() {
         return mFilteredData.size();
@@ -112,6 +76,36 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
         return null;
     }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((GenericViewHolder)holder).setGroupHeaderKey((((StickyHeaderItem)getItem(position)).getGroupKey()));
+
+
+        if (holder instanceof HeaderViewHolder){
+            if (!mHeaders.containsKey(((HeaderViewHolder) holder).getGroupHeaderKey()))
+                mHeaders.put(((HeaderViewHolder) holder).getGroupHeaderKey(), ((HeaderViewHolder) holder).view);
+
+
+
+            if (!mExpansionState.containsKey(((HeaderViewHolder) holder).getGroupHeaderKey()))
+                mExpansionState.put(((HeaderViewHolder) holder).getGroupHeaderKey(), TRUE);
+
+
+        }
+
+
+    }
+
+    public View getHeader(String key){
+
+        return mHeaders.get(key);
+    }
+
+    public Object getItem(int position){
+        return mFilteredData.get(position);
+
+    }
+
     public void onHeaderClicked(String key){
 
 
@@ -123,39 +117,23 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
             expand(key);
         }
     }
+    
+    private void collapse(String key){
 
-    public void collapse(String key){
 
 
-        int first = -1;
-        int count = 0;
+        int first = findFirstNonHeaderIndexOf(mFilteredData, key);
+        int last = findLastIndexOf(mFilteredData, key);
+        int count = last - first + 1;
 
-        for (int i = 0; i < mFilteredData.size(); i++){
-
-            StickyHeaderItem stickyHeaderItem = (StickyHeaderItem)mFilteredData.get(i);
-            if (stickyHeaderItem.getGroupKey().equals(key) && !stickyHeaderItem.isHeader()){
-                Log.i("9090", "removed: " + key);
-                if (first == -1) first = i;
-                count++;
-
-            }
-
+        if (first != -1){
+            removeRange(first, count, mFilteredData);
+            notifyItemRangeRemoved(first, count);
         }
-
-        Log.i("9091"," First: " + Integer.toString(first));
-        Log.i("9091"," Count: " + Integer.toString(count));
-        for (int i = 0; i < count; i++){
-            Log.i("9090", "removing: " + Integer.toString(first ));
-            mFilteredData.remove(first);
-        }
-
-        notifyItemRangeRemoved(first, count);
 
     }
 
-    public void expand(String key){
-
-        Log.i("9090", "expanding: " + key);
+    private void expand(String key){
 
         int mainListFirstIndex = findFirstNonHeaderIndexOf(mData, key);
         int mainListLastIndex = findLastIndexOf(mData, key);
@@ -174,6 +152,12 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
         Log.i("9090", "MainListLast: " + Integer.toString(mainListLastIndex));
         Log.i("9090", "FilteredListFirst: " + Integer.toString(filteredListFirstIndex));
 
+    }
+
+    private void removeRange(int first, int count, List list){
+        for (int i = 0; i < count; i++){
+            list.remove(first);
+        }
     }
 
     private int findFirstNonHeaderIndexOf (List list, String key){
