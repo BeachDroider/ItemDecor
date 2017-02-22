@@ -102,7 +102,6 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration  {
     }
 
     private void onStickingHeaderClicked(){
-        Log.i("9898", "clicked sticking header");
         currentHeaderView.performClick();
 
     }

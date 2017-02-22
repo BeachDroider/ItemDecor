@@ -117,7 +117,7 @@ public abstract class StickyHeaderAdapter extends RecyclerView.Adapter {
             expand(key);
         }
     }
-    
+
     private void collapse(String key){
 
 

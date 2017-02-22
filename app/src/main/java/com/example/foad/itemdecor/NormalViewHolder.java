@@ -1,6 +1,5 @@
 package com.example.foad.itemdecor;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +15,7 @@ public class NormalViewHolder extends GenericViewHolder{
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("8888", "clicked normal item: " + normalItemText.getText());
+
             }
         });
 
